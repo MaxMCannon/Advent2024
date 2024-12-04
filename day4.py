@@ -14,6 +14,8 @@ def buildwords(y, x):
     # if the word is longer than 4 letters and starts with XMAS, add 1 xmas
     wordlist = []
     tempword = words[y][x]
+    if tempword != 'X':
+        return 0
     currY = y
     currX = x
     counts = 0
