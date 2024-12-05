@@ -4,7 +4,7 @@
 import helpers as hp
 
 words = hp.readIn()
-
+# 
 # hp.pprint(words)
 
 global count
@@ -89,19 +89,42 @@ def buildwords(y, x):
             currY = y
             currX = x
             tempword = words[y][x]
-    print(wordlist)
+    # print(wordlist)
     for w in wordlist:
         # print(w[0:4])
-        if len(w) > 4 and w[0:4] == "XMAS":
-            print(w[0:4])
+        if len(w) >= 4 and w[0:4] == "XMAS":
+            # print(w[0:4])
             counts += 1
     return counts
 
 globalcount = 0
 
-for i in range(len(words)):
-    for j in range(len(words[i])):
-        globalcount += buildwords(i, j)
+# for i in range(len(words)):
+#     for j in range(len(words[i])):
+#         globalcount += buildwords(i, j)
 
-print(globalcount)
+# print(globalcount)
 
+#part 2
+# MAS, MAS - MAS, SAM - SAM, MAS - SAM , SAM
+
+key = [["MAS", "MAS"], ["MAS", "SAM"], ["SAM", "MAS"], ["SAM", "SAM"]]
+
+def createx(y, x):
+    if words[y][x] != 'A':
+        return 0
+    d1 = words[y-1][x-1] + "A" + words[y+1][x+1]
+    d2 = words[y+1][x-1] + "A" + words[y-1][x+1]
+    test = [d1, d2]
+    if test in key:
+        return 1
+    print(d1)
+    print(d2)
+    return 0 
+
+sum = 0
+for i in range(1, len(words)-1):
+    for j in range(1, len(words[i])-1):
+        sum += createx(i,j)
+
+print(sum)
