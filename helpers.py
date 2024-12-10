@@ -6,8 +6,7 @@ def listSTOI(l):
 
 def copylist(l):
     out = []
-    for i in l:
-        out.append(i)
+    [out.append(i) for i in l]
     return out
 
 def reverseList(l):
@@ -20,10 +19,13 @@ def pprint(l):
     for n in l:
         print(n)
 
-def listSTOIcommas(l):
-    strs = l.split(',')
+def listSTOIdelim(l, delim):
+    strs = l.split(delim)
+    # print(strs)
     dig = []
     for s in strs:
+        if not s.isnumeric():
+            continue
         dig.append(int(s))
     return dig
 

@@ -109,7 +109,6 @@ globalcount = 0
 # MAS, MAS - MAS, SAM - SAM, MAS - SAM , SAM
 
 key = [["MAS", "MAS"], ["MAS", "SAM"], ["SAM", "MAS"], ["SAM", "SAM"]]
-
 def createx(y, x):
     if words[y][x] != 'A':
         return 0
@@ -118,13 +117,9 @@ def createx(y, x):
     test = [d1, d2]
     if test in key:
         return 1
-    print(d1)
-    print(d2)
     return 0 
-
 sum = 0
 for i in range(1, len(words)-1):
     for j in range(1, len(words[i])-1):
         sum += createx(i,j)
-
 print(sum)
