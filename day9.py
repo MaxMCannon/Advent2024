@@ -27,13 +27,24 @@ for c in line:
         countnums += 1
 
 def getlast():
+    global diskmap
     last = len(diskmap)-1
     while not diskmap[last].isnumeric():
         last -= 1
-    print(diskmap[last])
-    diskmap[last].pop()
+    out = diskmap[last]
+    # print(diskmap[last])
+    diskmap = diskmap[:last]
+    return out
 
-getlast()
+
+checksum = 0
+for i in range(len(diskmap)):
+    if diskmap[i] == '.':
+        checksum += i * int(getlast())
+    else:
+        checksum += i * int(diskmap[i])
+    print(checksum)
+
 
 # def getlast():
 #     global diskmap

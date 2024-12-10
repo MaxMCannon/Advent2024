@@ -4,9 +4,8 @@
 import helpers as hp
 
 map = hp.readIn()
-tempmap = hp.copylist(map)
 
-hp.pprint(map)
+# hp.pprint(map)
 
 #if there is something in front of you turn right 90 degrees
 #otherwise step forward.
@@ -14,6 +13,8 @@ hp.pprint(map)
 pos = []
 global dir
 steps =[] # This will be a list of the steps including y, x, and dir
+
+#Starting again for part 2
 
 for i in range(len(map)):
     for j in range(len(map[i])):
@@ -32,6 +33,13 @@ for i in range(len(map)):
 print(pos)
 print(dir)
 
+starty = pos[0]
+startx = pos[1]
+
+
+steps.append([pos[0], pos[1] ,dir])
+print(steps)
+
 def turnright():
     global dir
     # print(dir)
@@ -39,46 +47,11 @@ def turnright():
         dir += 1
     else:
         dir = 0
-    
-def step():
-    global dir
-    if dir == 0:
-        pos[0] -= 1
-    elif dir == 1:
-        pos[1] += 1
-    elif dir == 2:
-        pos[0] += 1
-    elif dir == 3:
-        pos[1] -= 1
-
-loopcount = 0
-
-def stamp():
-    global looping
-    global steps
-    # map[pos[0]] = map[pos[0]][:pos[1]] +  "X" + map[pos[0]][pos[1]+1:]
-    cur = [pos[0], pos[1], dir]
-    if cur in steps:
-        print('Looping')
-        loopcount += 1
-        # return True
-    steps.append(cur)
-    # return False
-    print(steps)
-
-def countpath():
-    count = 0
-    for i in range(len(map)):
-        for j in range(len(map[i])):
-            if map[i][j] == "X":
-                count += 1
-    return count
 
 def checkfront():
     global dir
     try:
         if dir == 0 and map[pos[0]-1][pos[1]] == '#':
-            # print("bang")
             turnright()
             return True
         elif dir == 1 and map[pos[0]][pos[1]+1] == '#':
@@ -90,26 +63,54 @@ def checkfront():
         elif dir == 3 and map[pos[0]][pos[1]-1] == '#':
             turnright()
             return True
-        else:
-            step()
-            stamp()
-            return True
     except:
-        return False 
+        return False
+    return True
+
+def step():
+    global dir
+    if dir == 0:
+        pos[0] -= 1
+    elif dir == 1:
+        pos[1] += 1
+    elif dir == 2:
+        pos[0] += 1
+    elif dir == 3:
+        pos[1] -= 1    
+
+loopcount = 0
+
+def checkmap():
+    global steps
+    global loopcount
+    while checkfront():
+        step()
+        newpos = [pos[0], pos[1], dir]
+        if newpos in steps:
+            # print(steps)
+            loopcount += 1
+            print("loop")
+            steps = []
+            return True
+        steps.append(newpos)
+    # print(steps)
+    steps = []    
+    return False
+
+maxcount = len(map) * len(map[0])
+current = 0
 
 for y in range(len(map)):
     for x in range(len(map[y])):
-        if map[y][x] == '#' or map[y][x] == '^':
-            continue
-        else:
-            map[y] = map[y][:x] + '#' + map[y][x+1:]
-            hp.pprint(map)
-            print()
-            while checkfront():
-                continue
-            map[y] = map[y][:x] + '.' + map[y][x+1:]
-
+        current += 1
+        tempmap = hp.copylist(map)
+        map[y] = map[y][:x] + '#' + map[y][x+1:]
+        # hp.pprint(map)
+        print(int(current/maxcount*100))
+        pos = [starty, startx]
+        dir = 0
+        checkmap()
+        map = hp.copylist(tempmap)
 
 print(loopcount)
-#part 2
 
