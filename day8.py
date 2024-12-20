@@ -6,8 +6,6 @@ import helpers as hp
 map = hp.readIn()
 antinodemap = hp.copylist(map)
 
-
-
 hp.pprint(map)
 count = 0
 
@@ -16,13 +14,17 @@ def placeantinode(y, x):
     try:
         if y >= 0 and y <= len(map) and x >= 0 and x <= len(map):
             antinodemap[y] = antinodemap[y][:x] + '#' + antinodemap[y][x+1:]
+            return True
     except:
-        pass
-    # if y >= 0 and y <= len(map) and x >= 0 and x <= len(map) and map[y][x] != '.' and map[y][x] != '#':
-    #     count += 1
+        return False
 
-# placeantinode(0,0)
-# hp.pprint(map)
+def drawline(loc1, loc2):
+    #y = mx + b
+    rise = loc2[0]-loc1[0]
+    run = loc2[1]-loc1[1]
+    n = 1
+    while placeantinode(loc1[0]-(n*rise), loc1[1]-(n*run)):
+        n+=1
 
 def findantenae(symb):
     locs = []
@@ -36,20 +38,21 @@ def findantenae(symb):
             if i == j:
                 continue
             else:
+                drawline(locs[i], locs[j])
                 # print('placing')
-                ydist = locs[i][0]-locs[j][0]
-                xdist = locs[i][1]-locs[j][1]
-                while locs[i][0]+ydist > 0 and locs[i][0]+ydist <= len(map) and locs[i][1]+xdist> 0 and locs[i][1]+xdist < len(map[0]):
-                    placeantinode(locs[i][0]+ydist, locs[i][1]+xdist)
-                    ydist -= locs[j][0]
-                    xdist -= locs[j][1]
+                # ydist = locs[i][0]-locs[j][0]
+                # xdist = locs[i][1]-locs[j][1]
+                # while locs[i][0]+ydist > 0 and locs[i][0]+ydist <= len(map) and locs[i][1]+xdist> 0 and locs[i][1]+xdist < len(map[0]):
+                #     placeantinode(locs[i][0]+ydist, locs[i][1]+xdist)
+                #     ydist -= locs[j][0]
+                #     xdist -= locs[j][1]
     return locs
 
 def counthash():
     global count
     for y in range(len(map)):
         for x in range(len(map[y])):
-            if antinodemap[y][x] == '#':
+            if antinodemap[y][x] != '.':
                 count += 1
 
 

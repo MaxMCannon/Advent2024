@@ -17,8 +17,17 @@ def blink():
         if stones[i] == '0':
             tempstones.append('1')
         elif len(stones[i]) % 2 == 0: 
-            tempstones.append(stones[i][:int(len(stones[i])/2)])
-            tempstones.append(stones[i][int(len(stones[i])/2):])
+            h1 = stones[i][:int(len(stones[i])/2)]
+            h2 = stones[i][int(len(stones[i])/2):]
+            if int(h1) == 0:
+                tempstones.append('0')
+            else:
+                tempstones.append(h1.lstrip('0'))
+            if int(h2) == 0:
+                tempstones.append('0')
+            else:
+                tempstones.append(h2.lstrip('0'))
+
         else:
             tempstones.append(str(int(stones[i])*2024))
     return tempstones
@@ -32,12 +41,16 @@ def cleanstones():
             cleanstones.append(s.lstrip('0'))
     return cleanstones
 
-target = 75
+stonesperblink = [len(stones)]
+target = 6
 
 for i in range(target):
     print((i/target)*100)
     stones = blink()
-    stones = cleanstones()
+    stonesperblink.append(len(stones))
+    # stones = cleanstones()
     # print(stones)
+
+print(stonesperblink)
 
 print(len(stones))
